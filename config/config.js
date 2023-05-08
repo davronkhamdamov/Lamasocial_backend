@@ -1,13 +1,8 @@
 import { Sequelize, DataTypes, UUIDV4 } from 'sequelize';
+import dotenv from "dotenv";
+dotenv.config()
 
-const sequelize = new Sequelize({
-    username: "postgres",
-    password: "j24xt200",
-    database: "test",
-    port: 5432,
-    dialect: "postgres",
-    logging: false
-})
+const sequelize = new Sequelize(process.env.ELEPHANTSQLURL, { logging: false })
 sequelize.authenticate()
     .then(() => console.log('connacted'))
     .catch(e => console.log(e))
