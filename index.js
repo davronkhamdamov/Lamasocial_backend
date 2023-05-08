@@ -5,6 +5,7 @@ import jwt from "./middleware/auth.js";
 import user from './routes/user.js'
 import video from './routes/videos.js'
 import likes from './routes/likes.js'
+import message from './routes/message.js'
 
 dotenv.config()
 
@@ -16,6 +17,7 @@ app.use(jwt)
 app.use('/user', user)
 app.use('/video', video)
 app.use('/likes', likes)
+app.use('/message', message)
 
 app.get('/*', (req, res) => {
     res.send({ status: 400, message: 'Rout not found', method: req.method, url: req.url, error: true })

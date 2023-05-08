@@ -105,6 +105,14 @@ const user_message = sequelize.define('user_message', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    video_img: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    imgUrl: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     title: {
         type: DataTypes.STRING,
         allowNull: false
@@ -112,8 +120,13 @@ const user_message = sequelize.define('user_message', {
     isRead: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+    },
+    isActive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
     }
 })
+
 User.hasMany(Videos, {
     foreignKey: "userId"
 })
@@ -124,6 +137,14 @@ User.hasMany(Likes, {
 
 Videos.hasMany(Likes, {
     foreignKey: "video_id"
+})
+
+Videos.hasMany(user_message, {
+    foreignKey: "video_id"
+})
+
+User.hasMany(user_message, {
+    foreignKey: "userId"
 })
 
 export {

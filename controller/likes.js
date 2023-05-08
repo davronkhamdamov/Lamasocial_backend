@@ -1,6 +1,7 @@
-import { Likes, user_message } from '../config/data.js'
+import { Likes, User, user_message, Videos } from '../config/data.js'
 import { InternalServerError } from '../utils/erros.js'
 
+user_message.sync({ force: false })
 Likes.sync({ force: false })
 
 const updateLike = async (req, res, next) => {
@@ -17,10 +18,16 @@ const updateLike = async (req, res, next) => {
                 userId: req.user_id,
                 video_id: req.body.video_id
             }, { returning: true })
-            await user_message.create({
-                userId: req.user_id,
-                video_id: req.body.video_id
-            })
+            const user_id = await Videos.findOne({ where: { id: req.body.video_id } })
+            const user = await User.findOne({ where: { id: req.user_id } })
+            if (user_id !== req.user_id) {
+                await user_message.create({
+                    title: `${user.username} sizga like bosdi`,
+                    userId: user_id.userId,
+                    imgUrl: user.imgUrl,
+                    video_img: user_id.videoUrl
+                })
+            }
             res.send({
                 message: "Successfully liked",
                 likes: [newLikes]
