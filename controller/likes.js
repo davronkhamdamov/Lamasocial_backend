@@ -1,4 +1,4 @@
-import { Likes } from '../config/data.js'
+import { Likes, user_message } from '../config/data.js'
 import { InternalServerError } from '../utils/erros.js'
 
 Likes.sync({ force: false })
@@ -17,8 +17,12 @@ const updateLike = async (req, res, next) => {
                 userId: req.user_id,
                 video_id: req.body.video_id
             }, { returning: true })
+            await user_message.create({
+                userId: req.user_id,
+                video_id: req.body.video_id
+            })
             res.send({
-                message: "Like successfully liked",
+                message: "Successfully liked",
                 likes: [newLikes]
             })
         } else {
