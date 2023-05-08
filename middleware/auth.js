@@ -12,10 +12,10 @@ const jwt = async (req, res, next) => {
         const jwt = Jwt.verify(req.headers.token, process.env.JWT_SECRET)
         const FoundUser = await User.findOne({ where: { id: jwt.id } })
         if (!FoundUser) {
-            return next(new AuthorizationError("Invalid token"))
+            return next(new AuthorizationError(401, "Invalid token"))
         }
         if (req.headers['user-agent'] !== jwt.agent) {
-            return next(new AuthorizationError("This device wrong"))
+            return next(new AuthorizationError(401, "This device wrong"))
         }
         req.user_id = jwt.id
         next()
