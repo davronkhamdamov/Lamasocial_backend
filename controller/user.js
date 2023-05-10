@@ -16,7 +16,7 @@ const Signup = async (req, res, next) => {
         if (user) {
             return next(new AuthorizationError(400, "This email already registered"))
         }
-        if (!password.trim().match(/^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z])(?=\D*\d)[A-Za-z0-9!#+%]+$/g)) {
+        if (!password.trim().match(/^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z])(?=\D*\d)[A-Za-z0-9!#+%@]+$/g)) {
             return next(new ValidationError(400, "Password not valid"))
         }
         const hashPassword = await bcryptjs.hash(password, 12)
