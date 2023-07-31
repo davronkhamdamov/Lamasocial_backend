@@ -57,6 +57,8 @@ app.use((error, req, res, next) => {
     })
 })
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log("http://localhost:" + PORT + " is running");
 })
+import socket from './socket/socket.js'
+socket(server)
